@@ -45,9 +45,18 @@ which does all three from one packaged `.vsix`.
    [Open VSX](https://open-vsx.org/extension/xo-lang/xo), and the
    GitHub release.
 
-A version can be published only once to each registry. If the workflow
-fails after one of the publish steps, fix the cause and release the next
-patch version rather than reusing the tag.
+A version can be published only once to each registry, and both publish
+steps pass `--skip-duplicate`. If a run fails partway (for example the
+Marketplace published and Open VSX refused the token), fix the cause and
+rerun the failed run (`gh run rerun RUN_ID --failed --repo
+xo-lang/vscode`): the registry that already has the version is skipped
+and the rest finish. A rerun runs the workflow file at the tag's commit,
+so this holds for tags at or after the commit that added the flag. For an
+older tag, finish by hand from a checkout of the tag: `npx vsce package
+--out xo-X.Y.Z.vsix`, `npx ovsx publish xo-X.Y.Z.vsix -p TOKEN`, and
+`gh release create vX.Y.Z xo-X.Y.Z.vsix --notes-file NOTES --verify-tag`
+(notes from `node scripts/release-check.js vX.Y.Z NOTES`). v0.1.1 was
+finished this way on 2026-11-05 (Open VSX refused the first OVSX_PAT).
 
 ## Secrets
 

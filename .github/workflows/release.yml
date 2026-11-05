@@ -2,7 +2,9 @@
 # RELEASING.md): the tag must match package.json's version and
 # CHANGELOG.md must have that version's section; the tests and the
 # grammar check run; one .vsix is packaged and that same file goes to the
-# Visual Studio Marketplace, Open VSX and a GitHub release.
+# Visual Studio Marketplace, Open VSX and a GitHub release. The publish
+# steps skip a version a registry already has, so rerunning a release
+# that failed partway (one registry published) finishes the rest.
 name: release
 on:
   push:
@@ -32,11 +34,11 @@ jobs:
       - name: Package
         run: npx vsce package --out "xo-${GITHUB_REF_NAME#v}.vsix"
       - name: Publish to the Visual Studio Marketplace
-        run: npx vsce publish --packagePath "xo-${GITHUB_REF_NAME#v}.vsix"
+        run: npx vsce publish --skip-duplicate --packagePath "xo-${GITHUB_REF_NAME#v}.vsix"
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
       - name: Publish to Open VSX
-        run: npx ovsx publish "xo-${GITHUB_REF_NAME#v}.vsix"
+        run: npx ovsx publish --skip-duplicate "xo-${GITHUB_REF_NAME#v}.vsix"
         env:
           OVSX_PAT: ${{ secrets.OVSX_PAT }}
       - name: Create the GitHub release
