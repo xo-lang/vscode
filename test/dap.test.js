@@ -14,7 +14,7 @@ const debug = require("../lib/debug");
 
 const xo = process.env.XO_TEST_XO;
 
-const { MAIN } = require("./vscode/program");
+const { MAIN, BREAK_LINE, OUTPUT } = require("./vscode/program");
 
 // session speaks DAP to an adapter process: send returns the response to
 // a request, next the next event of a kind.
@@ -75,7 +75,7 @@ test("launch, a breakpoint, a variable, the end", { skip: !xo && "set XO_TEST_XO
     assert.ok((await s.send("initialize", { adapterID: "xo", linesStartAt1: true, columnsStartAt1: true })).success);
     const launched = s.send("launch", { program: step.out, args: [], cwd: dir });
     await s.next("initialized");
-    const bp = await s.send("setBreakpoints", { source: { path: path.join(app, "main.xo") }, breakpoints: [{ line: 3 }] });
+    const bp = await s.send("setBreakpoints", { source: { path: path.join(app, "main.xo") }, breakpoints: [{ line: BREAK_LINE }] });
     assert.ok(bp.body.breakpoints[0].verified, JSON.stringify(bp.body));
     await s.send("configurationDone");
     assert.ok((await launched).success);
@@ -83,11 +83,12 @@ test("launch, a breakpoint, a variable, the end", { skip: !xo && "set XO_TEST_XO
     assert.strictEqual(stopped.body.reason, "breakpoint");
     const st = await s.send("stackTrace", { threadId: stopped.body.threadId });
     const top = st.body.stackFrames[0];
-    assert.strictEqual(top.line, 3);
+    assert.strictEqual(top.line, BREAK_LINE);
     const scopes = await s.send("scopes", { frameId: top.id });
     const vars = await s.send("variables", { variablesReference: scopes.body.scopes[0].variablesReference });
     const v = Object.fromEntries(vars.body.variables.map((x) => [x.name, x.value]));
-    assert.strictEqual(v.s, "42", JSON.stringify(vars.body.variables));
+    assert.strictEqual(v.s, "0", JSON.stringify(vars.body.variables));
+    await s.send("setBreakpoints", { source: { path: path.join(app, "main.xo") }, breakpoints: [] });
     await s.send("continue", { threadId: stopped.body.threadId });
     const exited = await s.next("exited");
     assert.strictEqual(exited.body.exitCode, 0);
