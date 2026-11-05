@@ -33,6 +33,17 @@ function workDir() {
   return folders.length > 0 ? folders[0].uri.fsPath : require("os").homedir();
 }
 
+// run returns what command args printed (its standard output and error),
+// or "" when it could not run.
+function run(command, args) {
+  try {
+    const r = cp.spawnSync(command, args, { timeout: 5000 });
+    return ((r.stdout || "").toString() + (r.stderr || "").toString());
+  } catch {
+    return "";
+  }
+}
+
 // version returns the first line of `xo version`, so the output channel
 // shows which compiler answers (an old one rejects `edition preview`).
 function version(command) {
@@ -137,13 +148,18 @@ const configurations = (context) => ({
       vscode.window.showErrorMessage(`Xo: ${why}.`);
       return undefined;
     }
+    const { command, tried } = xoPath();
+    if (!command) {
+      vscode.window.showErrorMessage(`Xo: no xo binary to debug with: install Xo ${debug.MIN_XO} or later, or set xo.path. Looked in: ${tried.join(", ")}`);
+      return undefined;
+    }
+    const problem = debug.dapProblem(run(command, ["help", "debug"]), version(command));
+    if (problem) {
+      vscode.window.showErrorMessage(`Xo: ${problem} at ${command}. Install a newer Xo, or set xo.path.`);
+      return undefined;
+    }
     const step = debug.buildStep(config, path.join(context.globalStorageUri.fsPath, "debug"));
     if (step) {
-      const { command } = xoPath();
-      if (!command) {
-        vscode.window.showErrorMessage("Xo: no xo binary to build the program with (install Xo, or set xo.path).");
-        return undefined;
-      }
       try {
         await xoBuild(command, step, config.cwd || (folder ? folder.uri.fsPath : workDir()));
       } catch (err) {

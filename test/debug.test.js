@@ -54,3 +54,12 @@ test("check names what a configuration lacks", () => {
   assert.strictEqual(debug.check({ request: "attach", program: "p", processId: "42" }), "");
   assert.match(debug.check({ request: "restart" }), /launch or attach/);
 });
+
+test("an xo without debug --dap is named, with its version", () => {
+  assert.strictEqual(debug.dapProblem("usage: xo debug [--batch] ... xo debug --dap ...", "xo 0.39.0 darwin/arm64"), "");
+  assert.strictEqual(
+    debug.dapProblem("xo: unknown command \"debug\"", "xo 0.39.0 darwin/arm64"),
+    "debugging needs Xo 0.40 or later (xo debug --dap); found xo 0.39.0 darwin/arm64"
+  );
+  assert.match(debug.dapProblem("", ""), /found an xo whose version is unknown/);
+});

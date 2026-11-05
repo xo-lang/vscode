@@ -9,6 +9,8 @@
   (an executable built with its debug information, or a `.xo` file or a
   package directory, built with `xo build` first) and attach (a process
   id and its executable). F5 on an open `.xo` file debugs its package.
+  Debugging needs Xo 0.40 or later (`xo debug --dap`); with an older xo
+  a debug session does not start and says which xo it found.
 - The `xo` binary is the `xo.path` setting, then `xo` on PATH, then
   `bin/xo` of an Xo checkout or `.tools/bin/xo` in a workspace folder or
   above it (the checkout came first before).

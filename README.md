@@ -34,7 +34,9 @@ through `xo debug --dap`.
 
 ## Requirements
 
-An `xo` with `xo lsp` (and `xo debug --dap` for debugging). The extension
+An `xo` with `xo lsp`. Debugging needs Xo 0.40 or later (`xo debug
+--dap`); with an older xo the extension says so when a debug session
+starts, and highlighting and `xo lsp` still work. The extension
 uses, in order: the `xo.path` setting, `xo` on PATH, then `bin/xo` of an
 Xo checkout or `.tools/bin/xo` in a workspace folder or a directory above
 it.
