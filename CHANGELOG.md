@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.0 (unreleased)
+## 0.1.0 (2026-11-05)
 
 - The extension has its own repository, xo-lang/vscode, with the history
   of `editors/vscode` in the Xo repository.

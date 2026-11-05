@@ -7,3 +7,4 @@ scripts/**
 **/*.log
 node_modules/vscode-tmgrammar-test/**
 .vscode-test/**
+RELEASING.md

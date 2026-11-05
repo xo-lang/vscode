@@ -1,0 +1,45 @@
+# Publishes a release of the extension when a tag vX.Y.Z is pushed (see
+# RELEASING.md): the tag must match package.json's version and
+# CHANGELOG.md must have that version's section; the tests and the
+# grammar check run; one .vsix is packaged and that same file goes to the
+# Visual Studio Marketplace, Open VSX and a GitHub release.
+name: release
+on:
+  push:
+    tags:
+      - "v*"
+permissions:
+  contents: write
+concurrency:
+  group: release
+  cancel-in-progress: false
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 22
+      - name: Check the tag against package.json and CHANGELOG.md
+        run: node scripts/release-check.js "$GITHUB_REF_NAME" "$RUNNER_TEMP/notes.md"
+      - run: npm ci
+      - run: npm test
+      - name: Check the grammar against the newest Xo release's lexer
+        run: npm run check:grammar
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Package
+        run: npx vsce package --out "xo-${GITHUB_REF_NAME#v}.vsix"
+      - name: Publish to the Visual Studio Marketplace
+        run: npx vsce publish --packagePath "xo-${GITHUB_REF_NAME#v}.vsix"
+        env:
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
+      - name: Publish to Open VSX
+        run: npx ovsx publish "xo-${GITHUB_REF_NAME#v}.vsix"
+        env:
+          OVSX_PAT: ${{ secrets.OVSX_PAT }}
+      - name: Create the GitHub release
+        run: gh release create "$GITHUB_REF_NAME" "xo-${GITHUB_REF_NAME#v}.vsix" --title "$GITHUB_REF_NAME" --notes-file "$RUNNER_TEMP/notes.md" --verify-tag
+        env:
+          GH_TOKEN: ${{ github.token }}
