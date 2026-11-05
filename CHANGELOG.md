@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.1 (2026-11-05)
+
+- An icon (Finan, Xo's fox) and a dark banner on the Marketplace and Open VSX pages.
+
 ## 0.1.0 (2026-11-05)
 
 - The extension has its own repository, xo-lang/vscode, with the history

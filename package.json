@@ -2,7 +2,12 @@
   "name": "xo",
   "displayName": "Xo Language",
   "description": "Xo language support: syntax highlighting, the xo lsp language server, and the xo debugger.",
-  "version": "0.1.0",
+  "version": "0.1.1",
+  "icon": "images/icon.png",
+  "galleryBanner": {
+    "color": "#1b1b1f",
+    "theme": "dark"
+  },
   "publisher": "xo-lang",
   "license": "MIT",
   "repository": {
