@@ -14,16 +14,7 @@ const debug = require("../lib/debug");
 
 const xo = process.env.XO_TEST_XO;
 
-const MAIN = `fn add(a: Int, b: Int) -> Int {
-  let s = a + b
-  s
-}
-
-fn main() {
-  let total = add(40, 2)
-  os.stdio.println("total \${total}")
-}
-`;
+const { MAIN } = require("./vscode/program");
 
 // session speaks DAP to an adapter process: send returns the response to
 // a request, next the next event of a kind.
