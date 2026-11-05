@@ -1,6 +1,6 @@
 {
   "name": "xo",
-  "displayName": "Xo",
+  "displayName": "Xo Language",
   "description": "Xo language support: syntax highlighting, the xo lsp language server, and the xo debugger.",
   "version": "0.1.0",
   "publisher": "xo-lang",
