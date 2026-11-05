@@ -1,0 +1,20 @@
+name: test
+on:
+  push:
+  pull_request:
+  schedule:
+    # the newest Xo release may change the keywords
+    - cron: "17 6 * * 1"
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+      - run: npm test
+      - run: npm run check:grammar
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

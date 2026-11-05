@@ -1,18 +1,30 @@
 {
   "name": "xo",
   "displayName": "Xo",
-  "description": "Xo language support: syntax highlighting and the xo lsp language server.",
-  "version": "0.0.1",
+  "description": "Xo language support: syntax highlighting, the xo lsp language server, and the xo debugger.",
+  "version": "0.1.0",
   "publisher": "xo-lang",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xo-lang/vscode"
+  },
+  "homepage": "https://github.com/xo-lang/vscode",
+  "bugs": {
+    "url": "https://github.com/xo-lang/vscode/issues"
+  },
   "engines": {
     "vscode": "^1.82.0"
   },
   "categories": [
-    "Programming Languages"
+    "Programming Languages",
+    "Debuggers"
   ],
   "main": "./extension.js",
   "activationEvents": [
-    "onLanguage:xo"
+    "onLanguage:xo",
+    "onDebugResolve:xo",
+    "onDebugInitialConfigurations"
   ],
   "contributes": {
     "languages": [
@@ -51,7 +63,7 @@
         "xo.path": {
           "type": "string",
           "default": "",
-          "description": "Path to the xo binary. Empty: .tools/bin/xo in a workspace folder, else xo on PATH."
+          "description": "Path to the xo binary. Empty: xo on PATH, else bin/xo of an Xo checkout or .tools/bin/xo in a workspace folder or above it."
         },
         "xo.lsp.enabled": {
           "type": "boolean",
@@ -70,10 +82,106 @@
       "[xo]": {
         "editor.semanticHighlighting.enabled": true
       }
-    }
+    },
+    "breakpoints": [
+      {
+        "language": "xo"
+      }
+    ],
+    "debuggers": [
+      {
+        "type": "xo",
+        "label": "Xo",
+        "languages": [
+          "xo"
+        ],
+        "configurationAttributes": {
+          "launch": {
+            "required": [
+              "program"
+            ],
+            "properties": {
+              "program": {
+                "type": "string",
+                "description": "The program: an executable built with its debug information, or Xo source (a .xo file or a package directory), which is built with xo build first.",
+                "default": "${workspaceFolder}"
+              },
+              "args": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "The program's arguments.",
+                "default": []
+              },
+              "cwd": {
+                "type": "string",
+                "description": "The program's working directory.",
+                "default": "${workspaceFolder}"
+              }
+            }
+          },
+          "attach": {
+            "required": [
+              "program"
+            ],
+            "properties": {
+              "processId": {
+                "type": [
+                  "number",
+                  "string"
+                ],
+                "description": "The process to attach to (asked for when empty)."
+              },
+              "program": {
+                "type": "string",
+                "description": "The process's executable, built with its debug information."
+              }
+            }
+          }
+        },
+        "initialConfigurations": [
+          {
+            "type": "xo",
+            "request": "launch",
+            "name": "Xo: debug the package",
+            "program": "${workspaceFolder}",
+            "args": [],
+            "cwd": "${workspaceFolder}"
+          }
+        ],
+        "configurationSnippets": [
+          {
+            "label": "Xo: Launch",
+            "description": "Build and debug an Xo package",
+            "body": {
+              "type": "xo",
+              "request": "launch",
+              "name": "Xo: debug the package",
+              "program": "^\"\\${workspaceFolder}\"",
+              "args": [],
+              "cwd": "^\"\\${workspaceFolder}\""
+            }
+          },
+          {
+            "label": "Xo: Attach",
+            "description": "Attach to a running Xo program",
+            "body": {
+              "type": "xo",
+              "request": "attach",
+              "name": "Xo: attach",
+              "processId": "",
+              "program": "^\"\\${workspaceFolder}/prog\""
+            }
+          }
+        ]
+      }
+    ]
   },
   "scripts": {
-    "test": "vscode-tmgrammar-test -g syntaxes/xo.tmLanguage.json 'test/*.xo'"
+    "test": "node --test test/*.test.js && vscode-tmgrammar-test -g syntaxes/xo.tmLanguage.json 'test/*.xo'",
+    "check:grammar": "node scripts/check-grammar.js",
+    "package": "vsce package"
   },
   "devDependencies": {
     "vscode-tmgrammar-test": "0.1.3"
