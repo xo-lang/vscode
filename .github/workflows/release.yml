@@ -10,21 +10,33 @@ on:
   push:
     tags:
       - "v*"
+  # Publishes an existing tag again with this workflow file, for a release
+  # whose run failed partway: what a registry or GitHub already has is
+  # skipped (gh workflow run release.yml -f tag=vX.Y.Z).
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "An existing tag vX.Y.Z"
+        required: true
 permissions:
   contents: write
 concurrency:
   group: release
   cancel-in-progress: false
+env:
+  TAG: ${{ inputs.tag || github.ref_name }}
 jobs:
   release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          ref: ${{ inputs.tag && format('refs/tags/{0}', inputs.tag) || github.ref }}
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: 22
       - name: Check the tag against package.json and CHANGELOG.md
-        run: node scripts/release-check.js "$GITHUB_REF_NAME" "$RUNNER_TEMP/notes.md"
+        run: node scripts/release-check.js "$TAG" "$RUNNER_TEMP/notes.md"
       - run: npm ci
       - run: npm test
       - name: Check the grammar against the newest Xo release's lexer
@@ -32,16 +44,21 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Package
-        run: npx vsce package --out "xo-${GITHUB_REF_NAME#v}.vsix"
+        run: npx vsce package --out "xo-${TAG#v}.vsix"
       - name: Publish to the Visual Studio Marketplace
-        run: npx vsce publish --skip-duplicate --packagePath "xo-${GITHUB_REF_NAME#v}.vsix"
+        run: npx vsce publish --skip-duplicate --packagePath "xo-${TAG#v}.vsix"
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
       - name: Publish to Open VSX
-        run: npx ovsx publish --skip-duplicate "xo-${GITHUB_REF_NAME#v}.vsix"
+        run: npx ovsx publish --skip-duplicate "xo-${TAG#v}.vsix"
         env:
           OVSX_PAT: ${{ secrets.OVSX_PAT }}
       - name: Create the GitHub release
-        run: gh release create "$GITHUB_REF_NAME" "xo-${GITHUB_REF_NAME#v}.vsix" --title "$GITHUB_REF_NAME" --notes-file "$RUNNER_TEMP/notes.md" --verify-tag
+        run: |
+          if gh release view "$TAG" > /dev/null 2>&1; then
+            echo "release $TAG already exists"
+          else
+            gh release create "$TAG" "xo-${TAG#v}.vsix" --title "$TAG" --notes-file "$RUNNER_TEMP/notes.md" --verify-tag
+          fi
         env:
           GH_TOKEN: ${{ github.token }}

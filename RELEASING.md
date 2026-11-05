@@ -48,15 +48,17 @@ which does all three from one packaged `.vsix`.
 A version can be published only once to each registry, and both publish
 steps pass `--skip-duplicate`. If a run fails partway (for example the
 Marketplace published and Open VSX refused the token), fix the cause and
-rerun the failed run (`gh run rerun RUN_ID --failed --repo
-xo-lang/vscode`): the registry that already has the version is skipped
-and the rest finish. A rerun runs the workflow file at the tag's commit,
-so this holds for tags at or after the commit that added the flag. For an
-older tag, finish by hand from a checkout of the tag: `npx vsce package
---out xo-X.Y.Z.vsix`, `npx ovsx publish xo-X.Y.Z.vsix -p TOKEN`, and
-`gh release create vX.Y.Z xo-X.Y.Z.vsix --notes-file NOTES --verify-tag`
-(notes from `node scripts/release-check.js vX.Y.Z NOTES`). v0.1.1 was
-finished this way on 2026-11-05 (Open VSX refused the first OVSX_PAT).
+publish the tag again with the current workflow file:
+
+    gh workflow run release.yml --repo xo-lang/vscode -f tag=vX.Y.Z
+    gh run watch --repo xo-lang/vscode
+
+It checks out the tag, builds the same package, skips each registry that
+already has the version, and creates the GitHub release only if it is
+missing. (`gh run rerun` would use the workflow file at the tag's commit,
+which for tags before 2026-11-05's fix stops at the step that already
+published.) v0.1.1 was finished this way on 2026-11-05 after Open VSX
+refused the first OVSX_PAT.
 
 ## Secrets
 
