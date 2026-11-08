@@ -2,7 +2,7 @@
   "name": "xo",
   "displayName": "Xo Language",
   "description": "Xo language support: syntax highlighting, the xo lsp language server, and the xo debugger.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "icon": "images/icon.png",
   "galleryBanner": {
     "color": "#1b1b1f",
@@ -184,7 +184,7 @@
     ]
   },
   "scripts": {
-    "test": "node --test test/*.test.js && vscode-tmgrammar-test -g syntaxes/xo.tmLanguage.json 'test/*.xo'",
+    "test": "node --test test/*.test.js && vscode-tmgrammar-test -g syntaxes/xo.tmLanguage.json 'test/*.xo' && vscode-tmgrammar-snap -g syntaxes/xo.tmLanguage.json 'test/snap/*.xo'",
     "check:grammar": "node scripts/check-grammar.js",
     "package": "vsce package",
     "test:vscode": "node test/vscode/run.js"

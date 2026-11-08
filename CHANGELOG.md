@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.1.2 (2026-11-08)
+
+- Grammar refresh against the spec and a tree-sitter grammar corpus (tree-sitter-xo): `derive` on the line after a
+  type's closing brace, `bound` after a loop header (`for x in xs bound N`, `while c bound N`), `result` inside
+  `ensures`, `realtime` in a `uses` clause, and the `Task`, `Scope` and `Effects` types now highlight.
+- Destructuring assignment (tuple, list and struct targets), struct literal defaults, match guards and the other newer
+  forms were checked and need no change.
+- Grammar tests: `test/contextual.xo` asserts the scopes of the contextual words, and `test/snap/` holds snapshot
+  tests (`npm test` runs them) over every form of the tree-sitter-xo corpus and a file of the newer forms, so a
+  grammar change that moves a scope shows up as a snapshot diff (`npx vscode-tmgrammar-snap -u` accepts it).
+
 ## 0.1.1 (2026-11-05)
 
 - An icon (Finan, Xo's fox) and a dark banner on the Marketplace and Open VSX pages.

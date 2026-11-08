@@ -11,6 +11,7 @@
     { "include": "#numbers" },
     { "include": "#declarations" },
     { "include": "#uses-clause" },
+    { "include": "#ensures-clause" },
     { "include": "#keywords" },
     { "include": "#contextual" },
     { "include": "#predeclared" },
@@ -234,6 +235,16 @@
         }
       ]
     },
+    "ensures-clause": {
+        "comment": "inside ensures, result is the return value (core 1.4)",
+        "begin": "\\b(ensures)\\b",
+        "beginCaptures": { "1": { "name": "keyword.other.contract.xo" } },
+        "end": "(?=\\{|$)",
+        "patterns": [
+          { "name": "variable.language.result.xo", "match": "\\bresult\\b" },
+          { "include": "$self" }
+        ]
+      },
     "uses-clause": {
       "comment": "uses net, fs.read, fx: effect labels and effect variables (core 6)",
       "begin": "\\b(uses)\\b",
@@ -251,7 +262,7 @@
     },
     "effects": {
       "name": "support.constant.effect.xo",
-      "match": "\\b(?:net(?:\\.(?:dial|listen))?|fs(?:\\.(?:read|write))?|clock|rand|env|proc|stdio|ffi)\\b"
+      "match": "\\b(?:net(?:\\.(?:dial|listen))?|fs(?:\\.(?:read|write))?|clock|rand|env|proc|stdio|ffi|realtime)\\b"
     },
     "keywords": {
       "comment": "The 27 keywords of core 1.4 (scope is in contextual since decision 0497). editors/vscode/grammar_test.go checks this set against internal/token.",
@@ -282,8 +293,14 @@
       "comment": "Contextual words (core 1.4), highlighted only in the position that gives them meaning.",
       "patterns": [
         {
-          "match": "(?<=\\})\\s*(derive)\\b",
+          "comment": "} derive Json, Eq (same line), or derive on the line after the closing brace",
+          "match": "(?:(?<=\\})\\s*|^\\s*)(derive)\\b(?=\\s+[A-Z])",
           "captures": { "1": { "name": "keyword.other.derive.xo" } }
+        },
+        {
+          "comment": "for x in xs bound N { } and while cond bound N { } (core 3.5)",
+          "match": "(?<=[\\w)\\]\"'])\\s+(bound)\\s+(?=[A-Za-z0-9_(])",
+          "captures": { "1": { "name": "keyword.other.bound.xo" } }
         },
         {
           "comment": "scope NAME { ... }: the scope expression (decision 0497); scope elsewhere is a name",
@@ -349,7 +366,7 @@
         },
         {
           "name": "support.type.builtin.xo",
-          "match": "\\b(?:Bool|Int|Int8|Int16|Int32|Int64|UInt8|UInt16|UInt32|UInt64|Float|Float32|Rune|Str|Bytes|Duration|Time|List|Map|Set|Buf|Chan|Mutex|Atomic|Secret|Option|Result|Never|StrBuilder|BytesBuilder)\\b"
+          "match": "\\b(?:Bool|Int|Int8|Int16|Int32|Int64|UInt8|UInt16|UInt32|UInt64|Float|Float32|Rune|Str|Bytes|Duration|Time|List|Map|Set|Buf|Chan|Mutex|Atomic|Secret|Option|Result|Never|StrBuilder|BytesBuilder|Task|Scope|Effects)\\b"
         },
         {
           "name": "support.type.interface.xo",

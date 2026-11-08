@@ -1,0 +1,1226 @@
+>use std/http as web
+#^^^ source.xo keyword.other.use.xo
+#   ^ source.xo
+#    ^^^^^^^^ source.xo string.unquoted.import-path.xo
+#            ^ source.xo
+#             ^^ source.xo keyword.other.as.xo
+#               ^ source.xo
+#                ^^^ source.xo entity.name.namespace.xo
+>
+>pub struct Config {
+#^^^ source.xo storage.modifier.pub.xo
+#   ^ source.xo
+#    ^^^^^^ source.xo storage.type.struct.xo
+#          ^ source.xo
+#           ^^^^^^ source.xo entity.name.type.xo
+#                 ^^^ source.xo
+>  host: Str = "localhost"
+#^^ source.xo
+#  ^^^^ source.xo variable.other.property.xo
+#      ^ source.xo punctuation.separator.colon.xo
+#       ^ source.xo
+#        ^^^ source.xo support.type.builtin.xo
+#           ^ source.xo
+#            ^ source.xo keyword.operator.assignment.xo
+#             ^ source.xo
+#              ^ source.xo string.quoted.double.xo punctuation.definition.string.begin.xo
+#               ^^^^^^^^^ source.xo string.quoted.double.xo
+#                        ^ source.xo string.quoted.double.xo punctuation.definition.string.end.xo
+>  port: Int = 8080
+#^^ source.xo
+#  ^^^^ source.xo variable.other.property.xo
+#      ^ source.xo punctuation.separator.colon.xo
+#       ^ source.xo
+#        ^^^ source.xo support.type.builtin.xo
+#           ^ source.xo
+#            ^ source.xo keyword.operator.assignment.xo
+#             ^ source.xo
+#              ^^^^ source.xo constant.numeric.integer.xo
+>  tags: List[Str] = []
+#^^ source.xo
+#  ^^^^ source.xo variable.other.property.xo
+#      ^ source.xo punctuation.separator.colon.xo
+#       ^ source.xo
+#        ^^^^ source.xo support.type.builtin.xo
+#            ^ source.xo
+#             ^^^ source.xo support.type.builtin.xo
+#                ^^ source.xo
+#                  ^ source.xo keyword.operator.assignment.xo
+#                   ^^^^ source.xo
+>}
+#^^ source.xo
+>derive Json(case: snake), Eq
+#^^^^^^ source.xo keyword.other.derive.xo
+#      ^ source.xo
+#       ^^^^ source.xo support.type.interface.xo
+#           ^ source.xo
+#            ^^^^ source.xo variable.other.property.xo
+#                ^ source.xo punctuation.separator.colon.xo
+#                 ^ source.xo
+#                  ^^^^^ source.xo variable.other.xo
+#                       ^ source.xo
+#                        ^ source.xo punctuation.separator.comma.xo
+#                         ^ source.xo
+#                          ^^ source.xo support.type.interface.xo
+>
+>pub struct Point[T: Eq] {
+#^^^ source.xo storage.modifier.pub.xo
+#   ^ source.xo
+#    ^^^^^^ source.xo storage.type.struct.xo
+#          ^ source.xo
+#           ^^^^^ source.xo entity.name.type.xo
+#                ^ source.xo
+#                 ^ source.xo entity.name.type.xo
+#                  ^ source.xo punctuation.separator.colon.xo
+#                   ^ source.xo
+#                    ^^ source.xo support.type.interface.xo
+#                      ^^^^ source.xo
+>  x: T
+#^^ source.xo
+#  ^ source.xo variable.other.property.xo
+#   ^ source.xo punctuation.separator.colon.xo
+#    ^ source.xo
+#     ^ source.xo entity.name.type.xo
+>  y: T
+#^^ source.xo
+#  ^ source.xo variable.other.property.xo
+#   ^ source.xo punctuation.separator.colon.xo
+#    ^ source.xo
+#     ^ source.xo entity.name.type.xo
+>}
+#^^ source.xo
+>
+>fn swap(a: Int, b: Int) -> (Int, Int) {
+#^^ source.xo storage.type.function.xo
+#  ^ source.xo
+#   ^^^^ source.xo entity.name.function.xo
+#       ^ source.xo
+#        ^ source.xo variable.other.property.xo
+#         ^ source.xo punctuation.separator.colon.xo
+#          ^ source.xo
+#           ^^^ source.xo support.type.builtin.xo
+#              ^ source.xo punctuation.separator.comma.xo
+#               ^ source.xo
+#                ^ source.xo variable.other.property.xo
+#                 ^ source.xo punctuation.separator.colon.xo
+#                  ^ source.xo
+#                   ^^^ source.xo support.type.builtin.xo
+#                      ^^ source.xo
+#                        ^^ source.xo keyword.operator.arrow.xo
+#                          ^^ source.xo
+#                            ^^^ source.xo support.type.builtin.xo
+#                               ^ source.xo punctuation.separator.comma.xo
+#                                ^ source.xo
+#                                 ^^^ source.xo support.type.builtin.xo
+#                                    ^^^^ source.xo
+>  (b, a)
+#^^^ source.xo
+#   ^ source.xo variable.other.xo
+#    ^ source.xo punctuation.separator.comma.xo
+#     ^ source.xo
+#      ^ source.xo variable.other.xo
+#       ^^ source.xo
+>}
+#^^ source.xo
+>
+>fn serve(host: Str = "0.0.0.0", port: Int = 8080) -> () ! Error uses net.listen, clock {
+#^^ source.xo storage.type.function.xo
+#  ^ source.xo
+#   ^^^^^ source.xo entity.name.function.xo
+#        ^ source.xo
+#         ^^^^ source.xo variable.other.property.xo
+#             ^ source.xo punctuation.separator.colon.xo
+#              ^ source.xo
+#               ^^^ source.xo support.type.builtin.xo
+#                  ^ source.xo
+#                   ^ source.xo keyword.operator.assignment.xo
+#                    ^ source.xo
+#                     ^ source.xo string.quoted.double.xo punctuation.definition.string.begin.xo
+#                      ^^^^^^^ source.xo string.quoted.double.xo
+#                             ^ source.xo string.quoted.double.xo punctuation.definition.string.end.xo
+#                              ^ source.xo punctuation.separator.comma.xo
+#                               ^ source.xo
+#                                ^^^^ source.xo variable.other.property.xo
+#                                    ^ source.xo punctuation.separator.colon.xo
+#                                     ^ source.xo
+#                                      ^^^ source.xo support.type.builtin.xo
+#                                         ^ source.xo
+#                                          ^ source.xo keyword.operator.assignment.xo
+#                                           ^ source.xo
+#                                            ^^^^ source.xo constant.numeric.integer.xo
+#                                                ^^ source.xo
+#                                                  ^^ source.xo keyword.operator.arrow.xo
+#                                                    ^^^^ source.xo
+#                                                        ^ source.xo keyword.operator.logical.xo
+#                                                         ^ source.xo
+#                                                          ^^^^^ source.xo support.type.interface.xo
+#                                                               ^ source.xo
+#                                                                ^^^^ source.xo keyword.other.uses.xo
+#                                                                    ^ source.xo
+#                                                                     ^^^^^^^^^^ source.xo support.constant.effect.xo
+#                                                                               ^ source.xo punctuation.separator.comma.xo
+#                                                                                ^ source.xo
+#                                                                                 ^^^^^ source.xo support.constant.effect.xo
+#                                                                                      ^ source.xo
+#                                                                                       ^^ source.xo
+>  var (a, b) = (1, 2)
+#^^ source.xo
+#  ^^^ source.xo storage.type.xo
+#     ^^ source.xo
+#       ^ source.xo variable.other.xo
+#        ^ source.xo punctuation.separator.comma.xo
+#         ^ source.xo
+#          ^ source.xo variable.other.xo
+#           ^^ source.xo
+#             ^ source.xo keyword.operator.assignment.xo
+#              ^^ source.xo
+#                ^ source.xo constant.numeric.integer.xo
+#                 ^ source.xo punctuation.separator.comma.xo
+#                  ^ source.xo
+#                   ^ source.xo constant.numeric.integer.xo
+#                    ^^ source.xo
+>  (a, b) = (b, a)
+#^^^ source.xo
+#   ^ source.xo variable.other.xo
+#    ^ source.xo punctuation.separator.comma.xo
+#     ^ source.xo
+#      ^ source.xo variable.other.xo
+#       ^^ source.xo
+#         ^ source.xo keyword.operator.assignment.xo
+#          ^^ source.xo
+#            ^ source.xo variable.other.xo
+#             ^ source.xo punctuation.separator.comma.xo
+#              ^ source.xo
+#               ^ source.xo variable.other.xo
+#                ^^ source.xo
+>  (p.x, xs[i], _) = t
+#^^^ source.xo
+#   ^ source.xo variable.other.xo
+#    ^ source.xo punctuation.accessor.dot.xo
+#     ^ source.xo variable.other.xo
+#      ^ source.xo punctuation.separator.comma.xo
+#       ^ source.xo
+#        ^^ source.xo variable.other.xo
+#          ^ source.xo
+#           ^ source.xo variable.other.xo
+#            ^ source.xo
+#             ^ source.xo punctuation.separator.comma.xo
+#              ^ source.xo
+#               ^ source.xo variable.other.xo
+#                ^^ source.xo
+#                  ^ source.xo keyword.operator.assignment.xo
+#                   ^ source.xo
+#                    ^ source.xo variable.other.xo
+>  Point{x, y} = p
+#^^ source.xo
+#  ^^^^^ source.xo entity.name.type.xo
+#       ^ source.xo
+#        ^ source.xo variable.other.xo
+#         ^ source.xo punctuation.separator.comma.xo
+#          ^ source.xo
+#           ^ source.xo variable.other.xo
+#            ^^ source.xo
+#              ^ source.xo keyword.operator.assignment.xo
+#               ^ source.xo
+#                ^ source.xo variable.other.xo
+>  Point{x: st.lo, y: xs[i], ..} = p
+#^^ source.xo
+#  ^^^^^ source.xo entity.name.type.xo
+#       ^ source.xo
+#        ^ source.xo variable.other.property.xo
+#         ^ source.xo punctuation.separator.colon.xo
+#          ^ source.xo
+#           ^^ source.xo variable.other.xo
+#             ^ source.xo punctuation.accessor.dot.xo
+#              ^^ source.xo variable.other.xo
+#                ^ source.xo punctuation.separator.comma.xo
+#                 ^ source.xo
+#                  ^ source.xo variable.other.property.xo
+#                   ^ source.xo punctuation.separator.colon.xo
+#                    ^ source.xo
+#                     ^^ source.xo variable.other.xo
+#                       ^ source.xo
+#                        ^ source.xo variable.other.xo
+#                         ^ source.xo
+#                          ^ source.xo punctuation.separator.comma.xo
+#                           ^ source.xo
+#                            ^^ source.xo keyword.operator.range.xo
+#                              ^^ source.xo
+#                                ^ source.xo keyword.operator.assignment.xo
+#                                 ^ source.xo
+#                                  ^ source.xo variable.other.xo
+>  (Point{x, y}, n) = (p, 3)
+#^^^ source.xo
+#   ^^^^^ source.xo entity.name.type.xo
+#        ^ source.xo
+#         ^ source.xo variable.other.xo
+#          ^ source.xo punctuation.separator.comma.xo
+#           ^ source.xo
+#            ^ source.xo variable.other.xo
+#             ^ source.xo
+#              ^ source.xo punctuation.separator.comma.xo
+#               ^ source.xo
+#                ^ source.xo variable.other.xo
+#                 ^^ source.xo
+#                   ^ source.xo keyword.operator.assignment.xo
+#                    ^^ source.xo
+#                      ^ source.xo variable.other.xo
+#                       ^ source.xo punctuation.separator.comma.xo
+#                        ^ source.xo
+#                         ^ source.xo constant.numeric.integer.xo
+#                          ^^ source.xo
+>  let c = Config{port: 9090, ..base}
+#^^ source.xo
+#  ^^^ source.xo storage.type.let.xo
+#     ^ source.xo
+#      ^ source.xo variable.other.declaration.xo
+#       ^ source.xo
+#        ^ source.xo keyword.operator.assignment.xo
+#         ^ source.xo
+#          ^^^^^^ source.xo entity.name.type.xo
+#                ^ source.xo
+#                 ^^^^ source.xo variable.other.property.xo
+#                     ^ source.xo punctuation.separator.colon.xo
+#                      ^ source.xo
+#                       ^^^^ source.xo constant.numeric.integer.xo
+#                           ^ source.xo punctuation.separator.comma.xo
+#                            ^ source.xo
+#                             ^^ source.xo keyword.operator.range.xo
+#                               ^^^^ source.xo variable.other.xo
+#                                   ^^ source.xo
+>  let r = Config{}
+#^^ source.xo
+#  ^^^ source.xo storage.type.let.xo
+#     ^ source.xo
+#      ^ source.xo variable.other.declaration.xo
+#       ^ source.xo
+#        ^ source.xo keyword.operator.assignment.xo
+#         ^ source.xo
+#          ^^^^^^ source.xo entity.name.type.xo
+#                ^^^ source.xo
+>  match v {
+#^^ source.xo
+#  ^^^^^ source.xo keyword.control.xo
+#       ^ source.xo
+#        ^ source.xo variable.other.xo
+#         ^^^ source.xo
+>    Some(n) if n > 0 => n
+#^^^^ source.xo
+#    ^^^^ source.xo support.function.variant.xo
+#        ^ source.xo
+#         ^ source.xo variable.other.xo
+#          ^^ source.xo
+#            ^^ source.xo keyword.control.xo
+#              ^ source.xo
+#               ^ source.xo variable.other.xo
+#                ^ source.xo
+#                 ^ source.xo keyword.operator.comparison.xo
+#                  ^ source.xo
+#                   ^ source.xo constant.numeric.integer.xo
+#                    ^ source.xo
+#                     ^^ source.xo keyword.operator.arrow.xo
+#                       ^ source.xo
+#                        ^ source.xo variable.other.xo
+>    Some(_) | None => 0
+#^^^^ source.xo
+#    ^^^^ source.xo support.function.variant.xo
+#        ^ source.xo
+#         ^ source.xo variable.other.xo
+#          ^^ source.xo
+#            ^ source.xo keyword.operator.bitwise.xo
+#             ^ source.xo
+#              ^^^^ source.xo constant.language.none.xo
+#                  ^ source.xo
+#                   ^^ source.xo keyword.operator.arrow.xo
+#                     ^ source.xo
+#                      ^ source.xo constant.numeric.integer.xo
+>    Err(Parse(e)) if e.len() > 1 && e != "" => 1
+#^^^^ source.xo
+#    ^^^ source.xo support.function.variant.xo
+#       ^ source.xo
+#        ^^^^^ source.xo entity.name.type.xo
+#             ^ source.xo
+#              ^ source.xo variable.other.xo
+#               ^^^ source.xo
+#                  ^^ source.xo keyword.control.xo
+#                    ^ source.xo
+#                     ^ source.xo variable.other.xo
+#                      ^ source.xo punctuation.accessor.dot.xo
+#                       ^^^ source.xo entity.name.function.call.xo
+#                          ^^^ source.xo
+#                             ^ source.xo keyword.operator.comparison.xo
+#                              ^ source.xo
+#                               ^ source.xo constant.numeric.integer.xo
+#                                ^ source.xo
+#                                 ^^ source.xo keyword.operator.logical.xo
+#                                   ^ source.xo
+#                                    ^ source.xo variable.other.xo
+#                                     ^ source.xo
+#                                      ^^ source.xo keyword.operator.comparison.xo
+#                                        ^ source.xo
+#                                         ^ source.xo string.quoted.double.xo punctuation.definition.string.begin.xo
+#                                          ^ source.xo string.quoted.double.xo punctuation.definition.string.end.xo
+#                                           ^ source.xo
+#                                            ^^ source.xo keyword.operator.arrow.xo
+#                                              ^ source.xo
+#                                               ^ source.xo constant.numeric.integer.xo
+>    Point{x, ..} => x
+#^^^^ source.xo
+#    ^^^^^ source.xo entity.name.type.xo
+#         ^ source.xo
+#          ^ source.xo variable.other.xo
+#           ^ source.xo punctuation.separator.comma.xo
+#            ^ source.xo
+#             ^^ source.xo keyword.operator.range.xo
+#               ^^ source.xo
+#                 ^^ source.xo keyword.operator.arrow.xo
+#                   ^ source.xo
+#                    ^ source.xo variable.other.xo
+>    [first, ..rest] => first
+#^^^^^ source.xo
+#     ^^^^^ source.xo variable.other.xo
+#          ^ source.xo punctuation.separator.comma.xo
+#           ^ source.xo
+#            ^^ source.xo keyword.operator.range.xo
+#              ^^^^ source.xo variable.other.xo
+#                  ^^ source.xo
+#                    ^^ source.xo keyword.operator.arrow.xo
+#                      ^ source.xo
+#                       ^^^^^ source.xo variable.other.xo
+>    1..=5 => 2
+#^^^^ source.xo
+#    ^ source.xo constant.numeric.integer.xo
+#     ^^^ source.xo keyword.operator.range.xo
+#        ^ source.xo constant.numeric.integer.xo
+#         ^ source.xo
+#          ^^ source.xo keyword.operator.arrow.xo
+#            ^ source.xo
+#             ^ source.xo constant.numeric.integer.xo
+>    "a" => 3
+#^^^^ source.xo
+#    ^ source.xo string.quoted.double.xo punctuation.definition.string.begin.xo
+#     ^ source.xo string.quoted.double.xo
+#      ^ source.xo string.quoted.double.xo punctuation.definition.string.end.xo
+#       ^ source.xo
+#        ^^ source.xo keyword.operator.arrow.xo
+#          ^ source.xo
+#           ^ source.xo constant.numeric.integer.xo
+>    _ => 4
+#^^^^ source.xo
+#    ^ source.xo variable.other.xo
+#     ^ source.xo
+#      ^^ source.xo keyword.operator.arrow.xo
+#        ^ source.xo
+#         ^ source.xo constant.numeric.integer.xo
+>  }
+#^^^^ source.xo
+>  if let Some(x) = lookup(k) {
+#^^ source.xo
+#  ^^ source.xo keyword.control.xo
+#    ^ source.xo
+#     ^^^ source.xo storage.type.xo
+#        ^ source.xo
+#         ^^^^ source.xo support.function.variant.xo
+#             ^ source.xo
+#              ^ source.xo variable.other.xo
+#               ^^ source.xo
+#                 ^ source.xo keyword.operator.assignment.xo
+#                  ^ source.xo
+#                   ^^^^^^ source.xo entity.name.function.call.xo
+#                         ^ source.xo
+#                          ^ source.xo variable.other.xo
+#                           ^^^^ source.xo
+>    println("${x:?} and ${x + 1}")
+#^^^^ source.xo
+#    ^^^^^^^ source.xo entity.name.function.call.xo
+#           ^ source.xo
+#            ^ source.xo string.quoted.double.xo punctuation.definition.string.begin.xo
+#             ^^ source.xo string.quoted.double.xo meta.interpolation.xo punctuation.section.interpolation.begin.xo
+#               ^ source.xo string.quoted.double.xo meta.interpolation.xo source.xo.embedded variable.other.property.xo
+#                ^^ source.xo string.quoted.double.xo meta.interpolation.xo source.xo.embedded storage.modifier.format.debug.xo
+#                  ^ source.xo string.quoted.double.xo meta.interpolation.xo punctuation.section.interpolation.end.xo
+#                   ^^^^^ source.xo string.quoted.double.xo
+#                        ^^ source.xo string.quoted.double.xo meta.interpolation.xo punctuation.section.interpolation.begin.xo
+#                          ^ source.xo string.quoted.double.xo meta.interpolation.xo source.xo.embedded variable.other.xo
+#                           ^ source.xo string.quoted.double.xo meta.interpolation.xo source.xo.embedded
+#                            ^ source.xo string.quoted.double.xo meta.interpolation.xo source.xo.embedded keyword.operator.arithmetic.xo
+#                             ^ source.xo string.quoted.double.xo meta.interpolation.xo source.xo.embedded
+#                              ^ source.xo string.quoted.double.xo meta.interpolation.xo source.xo.embedded constant.numeric.integer.xo
+#                               ^ source.xo string.quoted.double.xo meta.interpolation.xo punctuation.section.interpolation.end.xo
+#                                ^ source.xo string.quoted.double.xo punctuation.definition.string.end.xo
+#                                 ^^ source.xo
+>  } else if x is Ok(_) {
+#^^^^ source.xo
+#    ^^^^ source.xo keyword.control.xo
+#        ^ source.xo
+#         ^^ source.xo keyword.control.xo
+#           ^ source.xo
+#            ^ source.xo variable.other.xo
+#             ^ source.xo
+#              ^^ source.xo keyword.operator.is.xo
+#                ^ source.xo
+#                 ^^ source.xo support.function.variant.xo
+#                   ^ source.xo
+#                    ^ source.xo variable.other.xo
+#                     ^^^^ source.xo
+>    return
+#^^^^ source.xo
+#    ^^^^^^ source.xo keyword.control.xo
+>  }
+#^^^^ source.xo
+>  while let Some(item) = it.next() {
+#^^ source.xo
+#  ^^^^^ source.xo keyword.control.xo
+#       ^ source.xo
+#        ^^^ source.xo storage.type.xo
+#           ^ source.xo
+#            ^^^^ source.xo support.function.variant.xo
+#                ^ source.xo
+#                 ^^^^ source.xo variable.other.xo
+#                     ^^ source.xo
+#                       ^ source.xo keyword.operator.assignment.xo
+#                        ^ source.xo
+#                         ^^ source.xo variable.other.xo
+#                           ^ source.xo punctuation.accessor.dot.xo
+#                            ^^^^ source.xo entity.name.function.call.xo
+#                                ^^^^^ source.xo
+>    break
+#^^^^ source.xo
+#    ^^^^^ source.xo keyword.control.xo
+>  }
+#^^^^ source.xo
+>  let n = x ?? return 0
+#^^ source.xo
+#  ^^^ source.xo storage.type.let.xo
+#     ^ source.xo
+#      ^ source.xo variable.other.declaration.xo
+#       ^ source.xo
+#        ^ source.xo keyword.operator.assignment.xo
+#         ^ source.xo
+#          ^ source.xo variable.other.xo
+#           ^ source.xo
+#            ^^ source.xo keyword.operator.coalesce.xo
+#              ^ source.xo
+#               ^^^^^^ source.xo keyword.control.xo
+#                     ^ source.xo
+#                      ^ source.xo constant.numeric.integer.xo
+>  let m = res ?? e => { 0 }
+#^^ source.xo
+#  ^^^ source.xo storage.type.let.xo
+#     ^ source.xo
+#      ^ source.xo variable.other.declaration.xo
+#       ^ source.xo
+#        ^ source.xo keyword.operator.assignment.xo
+#         ^ source.xo
+#          ^^^ source.xo variable.other.xo
+#             ^ source.xo
+#              ^^ source.xo keyword.operator.coalesce.xo
+#                ^ source.xo
+#                 ^ source.xo variable.other.xo
+#                  ^ source.xo
+#                   ^^ source.xo keyword.operator.arrow.xo
+#                     ^^^ source.xo
+#                        ^ source.xo constant.numeric.integer.xo
+#                         ^^^ source.xo
+>  let f = fn(a: Int) -> Int { a + 1 }
+#^^ source.xo
+#  ^^^ source.xo storage.type.let.xo
+#     ^ source.xo
+#      ^ source.xo variable.other.declaration.xo
+#       ^ source.xo
+#        ^ source.xo keyword.operator.assignment.xo
+#         ^ source.xo
+#          ^^ source.xo storage.type.xo
+#            ^ source.xo
+#             ^ source.xo variable.other.property.xo
+#              ^ source.xo punctuation.separator.colon.xo
+#               ^ source.xo
+#                ^^^ source.xo support.type.builtin.xo
+#                   ^^ source.xo
+#                     ^^ source.xo keyword.operator.arrow.xo
+#                       ^ source.xo
+#                        ^^^ source.xo support.type.builtin.xo
+#                           ^^^ source.xo
+#                              ^ source.xo variable.other.xo
+#                               ^ source.xo
+#                                ^ source.xo keyword.operator.arithmetic.xo
+#                                 ^ source.xo
+#                                  ^ source.xo constant.numeric.integer.xo
+#                                   ^^^ source.xo
+>  let s = #{1, 2, 3}
+#^^ source.xo
+#  ^^^ source.xo storage.type.let.xo
+#     ^ source.xo
+#      ^ source.xo variable.other.declaration.xo
+#       ^ source.xo
+#        ^ source.xo keyword.operator.assignment.xo
+#         ^ source.xo
+#          ^^ source.xo punctuation.definition.set.begin.xo
+#            ^ source.xo constant.numeric.integer.xo
+#             ^ source.xo punctuation.separator.comma.xo
+#              ^ source.xo
+#               ^ source.xo constant.numeric.integer.xo
+#                ^ source.xo punctuation.separator.comma.xo
+#                 ^ source.xo
+#                  ^ source.xo constant.numeric.integer.xo
+#                   ^^ source.xo
+>  let m2 = {"a": 1, "b": 2}
+#^^ source.xo
+#  ^^^ source.xo storage.type.let.xo
+#     ^ source.xo
+#      ^^ source.xo variable.other.declaration.xo
+#        ^ source.xo
+#         ^ source.xo keyword.operator.assignment.xo
+#          ^^ source.xo
+#            ^ source.xo string.quoted.double.xo punctuation.definition.string.begin.xo
+#             ^ source.xo string.quoted.double.xo
+#              ^ source.xo string.quoted.double.xo punctuation.definition.string.end.xo
+#               ^ source.xo punctuation.separator.colon.xo
+#                ^ source.xo
+#                 ^ source.xo constant.numeric.integer.xo
+#                  ^ source.xo punctuation.separator.comma.xo
+#                   ^ source.xo
+#                    ^ source.xo string.quoted.double.xo punctuation.definition.string.begin.xo
+#                     ^ source.xo string.quoted.double.xo
+#                      ^ source.xo string.quoted.double.xo punctuation.definition.string.end.xo
+#                       ^ source.xo punctuation.separator.colon.xo
+#                        ^ source.xo
+#                         ^ source.xo constant.numeric.integer.xo
+#                          ^^ source.xo
+>  let d = 5s + 100ms + 2h
+#^^ source.xo
+#  ^^^ source.xo storage.type.let.xo
+#     ^ source.xo
+#      ^ source.xo variable.other.declaration.xo
+#       ^ source.xo
+#        ^ source.xo keyword.operator.assignment.xo
+#         ^ source.xo
+#          ^^ source.xo constant.numeric.duration.xo
+#            ^ source.xo
+#             ^ source.xo keyword.operator.arithmetic.xo
+#              ^ source.xo
+#               ^^^^^ source.xo constant.numeric.duration.xo
+#                    ^ source.xo
+#                     ^ source.xo keyword.operator.arithmetic.xo
+#                      ^ source.xo
+#                       ^^ source.xo constant.numeric.duration.xo
+>  let h = 0xFF_FF + 0b1010 + 0o17 + 1_000 + 1.5e-3
+#^^ source.xo
+#  ^^^ source.xo storage.type.let.xo
+#     ^ source.xo
+#      ^ source.xo variable.other.declaration.xo
+#       ^ source.xo
+#        ^ source.xo keyword.operator.assignment.xo
+#         ^ source.xo
+#          ^^^^^^^ source.xo constant.numeric.hex.xo
+#                 ^ source.xo
+#                  ^ source.xo keyword.operator.arithmetic.xo
+#                   ^ source.xo
+#                    ^^^^^^ source.xo constant.numeric.binary.xo
+#                          ^ source.xo
+#                           ^ source.xo keyword.operator.arithmetic.xo
+#                            ^ source.xo
+#                             ^^^^ source.xo constant.numeric.octal.xo
+#                                 ^ source.xo
+#                                  ^ source.xo keyword.operator.arithmetic.xo
+#                                   ^ source.xo
+#                                    ^^^^^ source.xo constant.numeric.integer.xo
+#                                         ^ source.xo
+#                                          ^ source.xo keyword.operator.arithmetic.xo
+#                                           ^ source.xo
+#                                            ^^^^^^ source.xo constant.numeric.float.xo
+>  let raw = r#"no \n escapes"#
+#^^ source.xo
+#  ^^^ source.xo storage.type.let.xo
+#     ^ source.xo
+#      ^^^ source.xo variable.other.declaration.xo
+#         ^ source.xo
+#          ^ source.xo keyword.operator.assignment.xo
+#           ^ source.xo
+#            ^ source.xo string.quoted.raw.xo punctuation.definition.string.begin.xo storage.type.string.xo
+#             ^^ source.xo string.quoted.raw.xo punctuation.definition.string.begin.xo
+#               ^^^^^^^^^^^^^ source.xo string.quoted.raw.xo
+#                            ^^ source.xo string.quoted.raw.xo punctuation.definition.string.end.xo
+>  let bs = b"\x00\xff"
+#^^ source.xo
+#  ^^^ source.xo storage.type.let.xo
+#     ^ source.xo
+#      ^^ source.xo variable.other.declaration.xo
+#        ^ source.xo
+#         ^ source.xo keyword.operator.assignment.xo
+#          ^ source.xo
+#           ^ source.xo string.quoted.double.bytes.xo punctuation.definition.string.begin.xo storage.type.string.xo
+#            ^ source.xo string.quoted.double.bytes.xo punctuation.definition.string.begin.xo
+#             ^^^^ source.xo string.quoted.double.bytes.xo constant.character.escape.xo
+#                 ^^^^ source.xo string.quoted.double.bytes.xo constant.character.escape.xo
+#                     ^ source.xo string.quoted.double.bytes.xo punctuation.definition.string.end.xo
+>  let ch = 'x'
+#^^ source.xo
+#  ^^^ source.xo storage.type.let.xo
+#     ^ source.xo
+#      ^^ source.xo variable.other.declaration.xo
+#        ^ source.xo
+#         ^ source.xo keyword.operator.assignment.xo
+#          ^ source.xo
+#           ^^^ source.xo string.quoted.single.rune.xo
+>  let nl = '\n'
+#^^ source.xo
+#  ^^^ source.xo storage.type.let.xo
+#     ^ source.xo
+#      ^^ source.xo variable.other.declaration.xo
+#        ^ source.xo
+#         ^ source.xo keyword.operator.assignment.xo
+#          ^ source.xo
+#           ^ source.xo string.quoted.single.rune.xo
+#            ^^ source.xo string.quoted.single.rune.xo constant.character.escape.xo
+#              ^ source.xo string.quoted.single.rune.xo
+>  let sl = xs[1..3]
+#^^ source.xo
+#  ^^^ source.xo storage.type.let.xo
+#     ^ source.xo
+#      ^^ source.xo variable.other.declaration.xo
+#        ^ source.xo
+#         ^ source.xo keyword.operator.assignment.xo
+#          ^ source.xo
+#           ^^ source.xo variable.other.xo
+#             ^ source.xo
+#              ^ source.xo constant.numeric.integer.xo
+#               ^^ source.xo keyword.operator.range.xo
+#                 ^ source.xo constant.numeric.integer.xo
+#                  ^^ source.xo
+>  let ok = a && !b || c
+#^^ source.xo
+#  ^^^ source.xo storage.type.let.xo
+#     ^ source.xo
+#      ^^ source.xo variable.other.declaration.xo
+#        ^ source.xo
+#         ^ source.xo keyword.operator.assignment.xo
+#          ^ source.xo
+#           ^ source.xo variable.other.xo
+#            ^ source.xo
+#             ^^ source.xo keyword.operator.logical.xo
+#               ^ source.xo
+#                ^ source.xo keyword.operator.logical.xo
+#                 ^ source.xo variable.other.xo
+#                  ^ source.xo
+#                   ^^ source.xo keyword.operator.logical.xo
+#                     ^ source.xo
+#                      ^ source.xo variable.other.xo
+>  x += 1
+#^^ source.xo
+#  ^ source.xo variable.other.xo
+#   ^ source.xo
+#    ^^ source.xo keyword.operator.assignment.compound.xo
+#      ^ source.xo
+#       ^ source.xo constant.numeric.integer.xo
+>  x <<= 2
+#^^ source.xo
+#  ^ source.xo variable.other.xo
+#   ^ source.xo
+#    ^^^ source.xo keyword.operator.assignment.compound.xo
+#       ^ source.xo
+#        ^ source.xo constant.numeric.integer.xo
+>  defer cleanup()
+#^^ source.xo
+#  ^^^^^ source.xo keyword.control.xo
+#       ^ source.xo
+#        ^^^^^^^ source.xo entity.name.function.call.xo
+#               ^^^ source.xo
+>  select {
+#^^ source.xo
+#  ^^^^^^ source.xo keyword.control.xo
+#        ^^^ source.xo
+>    v = <-ch => handle(v)
+#^^^^ source.xo
+#    ^ source.xo variable.other.xo
+#     ^ source.xo
+#      ^ source.xo keyword.operator.assignment.xo
+#       ^ source.xo
+#        ^ source.xo keyword.operator.comparison.xo
+#         ^ source.xo keyword.operator.arithmetic.xo
+#          ^^ source.xo variable.other.xo
+#            ^ source.xo
+#             ^^ source.xo keyword.operator.arrow.xo
+#               ^ source.xo
+#                ^^^^^^ source.xo entity.name.function.call.xo
+#                      ^ source.xo
+#                       ^ source.xo variable.other.xo
+#                        ^^ source.xo
+>    after 1s => timeout()
+#^^^^ source.xo
+#    ^^^^^ source.xo keyword.control.after.xo
+#         ^ source.xo
+#          ^^ source.xo constant.numeric.duration.xo
+#            ^ source.xo
+#             ^^ source.xo keyword.operator.arrow.xo
+#               ^ source.xo
+#                ^^^^^^^ source.xo entity.name.function.call.xo
+#                       ^^^ source.xo
+>  }
+#^^^^ source.xo
+>  scope s {
+#^^ source.xo
+#  ^^^^^ source.xo keyword.control.xo
+#       ^ source.xo
+#        ^ source.xo variable.other.xo
+#         ^^^ source.xo
+>    s.spawn(fn() { work() })
+#^^^^ source.xo
+#    ^ source.xo variable.other.xo
+#     ^ source.xo punctuation.accessor.dot.xo
+#      ^^^^^ source.xo entity.name.function.call.xo
+#           ^ source.xo
+#            ^^ source.xo storage.type.xo
+#              ^^^^^ source.xo
+#                   ^^^^ source.xo entity.name.function.call.xo
+#                       ^^^^^^ source.xo
+>  }
+#^^^^ source.xo
+>  let h2 = with { net: n } { run() }
+#^^ source.xo
+#  ^^^ source.xo storage.type.let.xo
+#     ^ source.xo
+#      ^^ source.xo variable.other.declaration.xo
+#        ^ source.xo
+#         ^ source.xo keyword.operator.assignment.xo
+#          ^ source.xo
+#           ^^^^ source.xo keyword.other.with.xo
+#               ^ source.xo
+#                ^^ source.xo
+#                  ^^^ source.xo variable.other.property.xo
+#                     ^ source.xo punctuation.separator.colon.xo
+#                      ^ source.xo
+#                       ^ source.xo variable.other.xo
+#                        ^^^^^ source.xo
+#                             ^^^ source.xo entity.name.function.call.xo
+#                                ^^^^^ source.xo
+>  ???
+#^^ source.xo
+#  ^^^ source.xo keyword.other.hole.xo
+>}
+#^^ source.xo
+>
+>interface Store {
+#^^^^^^^^^ source.xo storage.type.interface.xo
+#         ^ source.xo
+#          ^^^^^ source.xo entity.name.type.xo
+#               ^^^ source.xo
+>  fn get(self, k: Str) -> Str? uses fs.read
+#^^ source.xo
+#  ^^ source.xo storage.type.function.xo
+#    ^ source.xo
+#     ^^^ source.xo entity.name.function.xo
+#        ^ source.xo
+#         ^^^^ source.xo variable.language.self.xo
+#             ^ source.xo punctuation.separator.comma.xo
+#              ^ source.xo
+#               ^ source.xo variable.other.property.xo
+#                ^ source.xo punctuation.separator.colon.xo
+#                 ^ source.xo
+#                  ^^^ source.xo support.type.builtin.xo
+#                     ^^ source.xo
+#                       ^^ source.xo keyword.operator.arrow.xo
+#                         ^ source.xo
+#                          ^^^ source.xo support.type.builtin.xo
+#                             ^ source.xo keyword.operator.try.xo
+#                              ^ source.xo
+#                               ^^^^ source.xo keyword.other.uses.xo
+#                                   ^ source.xo
+#                                    ^^^^^^^ source.xo support.constant.effect.xo
+>}
+#^^ source.xo
+>
+>fn twice[fx: Effects](f: fn() -> () uses fx) -> () uses fx {
+#^^ source.xo storage.type.function.xo
+#  ^ source.xo
+#   ^^^^^ source.xo entity.name.function.xo
+#        ^ source.xo
+#         ^^ source.xo variable.other.property.xo
+#           ^ source.xo punctuation.separator.colon.xo
+#            ^ source.xo
+#             ^^^^^^^ source.xo support.type.builtin.xo
+#                    ^^ source.xo
+#                      ^ source.xo variable.other.property.xo
+#                       ^ source.xo punctuation.separator.colon.xo
+#                        ^ source.xo
+#                         ^^ source.xo storage.type.xo
+#                           ^^^ source.xo
+#                              ^^ source.xo keyword.operator.arrow.xo
+#                                ^^^^ source.xo
+#                                    ^^^^ source.xo keyword.other.uses.xo
+#                                        ^ source.xo
+#                                         ^^ source.xo variable.parameter.effect.xo
+#                                           ^^ source.xo
+#                                             ^^ source.xo keyword.operator.arrow.xo
+#                                               ^^^^ source.xo
+#                                                   ^^^^ source.xo keyword.other.uses.xo
+#                                                       ^ source.xo
+#                                                        ^^ source.xo variable.parameter.effect.xo
+#                                                          ^ source.xo
+#                                                           ^^ source.xo
+>  f()
+#^^ source.xo
+#  ^ source.xo entity.name.function.call.xo
+#   ^^^ source.xo
+>}
+#^^ source.xo
+>
+>enum Shape {
+#^^^^ source.xo storage.type.enum.xo
+#    ^ source.xo
+#     ^^^^^ source.xo entity.name.type.xo
+#          ^^^ source.xo
+>  Circle(r: Float)
+#^^ source.xo
+#  ^^^^^^ source.xo entity.name.type.xo
+#        ^ source.xo
+#         ^ source.xo variable.other.property.xo
+#          ^ source.xo punctuation.separator.colon.xo
+#           ^ source.xo
+#            ^^^^^ source.xo support.type.builtin.xo
+#                 ^^ source.xo
+>  Rect(w: Float, h: Float)
+#^^ source.xo
+#  ^^^^ source.xo entity.name.type.xo
+#      ^ source.xo
+#       ^ source.xo variable.other.property.xo
+#        ^ source.xo punctuation.separator.colon.xo
+#         ^ source.xo
+#          ^^^^^ source.xo support.type.builtin.xo
+#               ^ source.xo punctuation.separator.comma.xo
+#                ^ source.xo
+#                 ^ source.xo variable.other.property.xo
+#                  ^ source.xo punctuation.separator.colon.xo
+#                   ^ source.xo
+#                    ^^^^^ source.xo support.type.builtin.xo
+#                         ^^ source.xo
+>  Named(from Inner)
+#^^ source.xo
+#  ^^^^^ source.xo entity.name.type.xo
+#       ^ source.xo
+#        ^^^^ source.xo keyword.other.from.xo
+#            ^ source.xo
+#             ^^^^^ source.xo entity.name.type.xo
+#                  ^^ source.xo
+>  Empty
+#^^ source.xo
+#  ^^^^^ source.xo entity.name.type.xo
+>}
+#^^ source.xo
+>
+>enum Level: Int {
+#^^^^ source.xo storage.type.enum.xo
+#    ^ source.xo
+#     ^^^^^ source.xo entity.name.type.xo
+#          ^ source.xo punctuation.separator.colon.xo
+#           ^ source.xo
+#            ^^^ source.xo support.type.builtin.xo
+#               ^^^ source.xo
+>  Low = 1
+#^^ source.xo
+#  ^^^ source.xo entity.name.type.xo
+#     ^ source.xo
+#      ^ source.xo keyword.operator.assignment.xo
+#       ^ source.xo
+#        ^ source.xo constant.numeric.integer.xo
+>  High = 2
+#^^ source.xo
+#  ^^^^ source.xo entity.name.type.xo
+#      ^ source.xo
+#       ^ source.xo keyword.operator.assignment.xo
+#        ^ source.xo
+#         ^ source.xo constant.numeric.integer.xo
+>}
+#^^ source.xo
+>
+>type Id = Int
+#^^^^ source.xo storage.type.type.xo
+#    ^ source.xo
+#     ^^ source.xo entity.name.type.xo
+#       ^ source.xo
+#        ^ source.xo keyword.operator.assignment.xo
+#         ^ source.xo
+#          ^^^ source.xo support.type.builtin.xo
+>type Meters(Float)
+#^^^^ source.xo storage.type.type.xo
+#    ^ source.xo
+#     ^^^^^^ source.xo entity.name.type.xo
+#           ^ source.xo
+#            ^^^^^ source.xo support.type.builtin.xo
+#                 ^^ source.xo
+>
+>fn (s: Shape) area() -> Float {
+#^^ source.xo storage.type.function.xo
+#  ^ source.xo
+#   ^ source.xo punctuation.section.parens.begin.xo
+#    ^ source.xo variable.other.property.xo
+#     ^ source.xo punctuation.separator.colon.xo
+#      ^ source.xo
+#       ^^^^^ source.xo entity.name.type.xo
+#            ^ source.xo punctuation.section.parens.end.xo
+#             ^ source.xo
+#              ^^^^ source.xo entity.name.function.method.xo
+#                  ^^^ source.xo
+#                     ^^ source.xo keyword.operator.arrow.xo
+#                       ^ source.xo
+#                        ^^^^^ source.xo support.type.builtin.xo
+#                             ^^^ source.xo
+>  match s {
+#^^ source.xo
+#  ^^^^^ source.xo keyword.control.xo
+#       ^ source.xo
+#        ^ source.xo variable.other.xo
+#         ^^^ source.xo
+>    Circle(r) => 3.14 * r * r
+#^^^^ source.xo
+#    ^^^^^^ source.xo entity.name.type.xo
+#          ^ source.xo
+#           ^ source.xo variable.other.xo
+#            ^^ source.xo
+#              ^^ source.xo keyword.operator.arrow.xo
+#                ^ source.xo
+#                 ^^^^ source.xo constant.numeric.float.xo
+#                     ^ source.xo
+#                      ^ source.xo keyword.operator.arithmetic.xo
+#                       ^ source.xo
+#                        ^ source.xo variable.other.xo
+#                         ^ source.xo
+#                          ^ source.xo keyword.operator.arithmetic.xo
+#                           ^ source.xo
+#                            ^ source.xo variable.other.xo
+>    Rect(w, h) => w * h
+#^^^^ source.xo
+#    ^^^^ source.xo entity.name.type.xo
+#        ^ source.xo
+#         ^ source.xo variable.other.xo
+#          ^ source.xo punctuation.separator.comma.xo
+#           ^ source.xo
+#            ^ source.xo variable.other.xo
+#             ^^ source.xo
+#               ^^ source.xo keyword.operator.arrow.xo
+#                 ^ source.xo
+#                  ^ source.xo variable.other.xo
+#                   ^ source.xo
+#                    ^ source.xo keyword.operator.arithmetic.xo
+#                     ^ source.xo
+#                      ^ source.xo variable.other.xo
+>    Named(_) | Empty => 0.0
+#^^^^ source.xo
+#    ^^^^^ source.xo entity.name.type.xo
+#         ^ source.xo
+#          ^ source.xo variable.other.xo
+#           ^^ source.xo
+#             ^ source.xo keyword.operator.bitwise.xo
+#              ^ source.xo
+#               ^^^^^ source.xo entity.name.type.xo
+#                    ^ source.xo
+#                     ^^ source.xo keyword.operator.arrow.xo
+#                       ^ source.xo
+#                        ^^^ source.xo constant.numeric.float.xo
+>  }
+#^^^^ source.xo
+>}
+#^^ source.xo
+>
+>fn isqrt(n: Int) -> Int
+#^^ source.xo storage.type.function.xo
+#  ^ source.xo
+#   ^^^^^ source.xo entity.name.function.xo
+#        ^ source.xo
+#         ^ source.xo variable.other.property.xo
+#          ^ source.xo punctuation.separator.colon.xo
+#           ^ source.xo
+#            ^^^ source.xo support.type.builtin.xo
+#               ^^ source.xo
+#                 ^^ source.xo keyword.operator.arrow.xo
+#                   ^ source.xo
+#                    ^^^ source.xo support.type.builtin.xo
+>  requires n >= 0
+#^^ source.xo
+#  ^^^^^^^^ source.xo keyword.other.contract.xo
+#          ^ source.xo
+#           ^ source.xo variable.other.xo
+#            ^ source.xo
+#             ^^ source.xo keyword.operator.comparison.xo
+#               ^ source.xo
+#                ^ source.xo constant.numeric.integer.xo
+>  ensures result * result <= n
+#^^ source.xo
+#  ^^^^^^^ source.xo keyword.other.contract.xo
+#         ^ source.xo
+#          ^^^^^^ source.xo variable.language.result.xo
+#                ^ source.xo
+#                 ^ source.xo keyword.operator.arithmetic.xo
+#                  ^ source.xo
+#                   ^^^^^^ source.xo variable.language.result.xo
+#                         ^ source.xo
+#                          ^^ source.xo keyword.operator.comparison.xo
+#                            ^ source.xo
+#                             ^ source.xo variable.other.xo
+>{
+#^^ source.xo
+>  old(n)
+#^^ source.xo
+#  ^^^ source.xo support.function.builtin.old.xo
+#     ^ source.xo
+#      ^ source.xo variable.other.xo
+#       ^^ source.xo
+>  n
+#^^ source.xo
+#  ^ source.xo variable.other.xo
+>}
+#^^ source.xo
+>
+>struct Counter {
+#^^^^^^ source.xo storage.type.struct.xo
+#      ^ source.xo
+#       ^^^^^^^ source.xo entity.name.type.xo
+#              ^^^ source.xo
+>  n: Int
+#^^ source.xo
+#  ^ source.xo variable.other.property.xo
+#   ^ source.xo punctuation.separator.colon.xo
+#    ^ source.xo
+#     ^^^ source.xo support.type.builtin.xo
+>}
+#^^ source.xo
+>invariant n >= 0
+#^^^^^^^^^ source.xo keyword.other.contract.xo
+#         ^ source.xo
+#          ^ source.xo variable.other.xo
+#           ^ source.xo
+#            ^^ source.xo keyword.operator.comparison.xo
+#              ^ source.xo
+#               ^ source.xo constant.numeric.integer.xo
+>
+>test "adds" seed 42 {
+#^^^^ source.xo keyword.other.test.xo
+#    ^ source.xo
+#     ^ source.xo string.quoted.double.xo punctuation.definition.string.begin.xo
+#      ^^^^ source.xo string.quoted.double.xo
+#          ^ source.xo string.quoted.double.xo punctuation.definition.string.end.xo
+#           ^ source.xo
+#            ^^^^ source.xo keyword.other.seed.xo
+#                ^ source.xo
+#                 ^^ source.xo constant.numeric.integer.xo
+#                   ^^^ source.xo
+>  expect(1 + 1) == 2
+#^^ source.xo
+#  ^^^^^^ source.xo support.function.builtin.xo
+#        ^ source.xo
+#         ^ source.xo constant.numeric.integer.xo
+#          ^ source.xo
+#           ^ source.xo keyword.operator.arithmetic.xo
+#            ^ source.xo
+#             ^ source.xo constant.numeric.integer.xo
+#              ^^ source.xo
+#                ^^ source.xo keyword.operator.comparison.xo
+#                  ^ source.xo
+#                   ^ source.xo constant.numeric.integer.xo
+>}
+#^^ source.xo
+>
+>struct Cfg {
+#^^^^^^ source.xo storage.type.struct.xo
+#      ^ source.xo
+#       ^^^ source.xo entity.name.type.xo
+#          ^^^ source.xo
+>  a: Int
+#^^ source.xo
+#  ^ source.xo variable.other.property.xo
+#   ^ source.xo punctuation.separator.colon.xo
+#    ^ source.xo
+#     ^^^ source.xo support.type.builtin.xo
+>}
+#^^ source.xo
+>derive Json, Eq
+#^^^^^^ source.xo keyword.other.derive.xo
+#      ^ source.xo
+#       ^^^^ source.xo support.type.interface.xo
+#           ^ source.xo punctuation.separator.comma.xo
+#            ^ source.xo
+#             ^^ source.xo support.type.interface.xo
+>
+>fn loops(xs: List[Int]) {
+#^^ source.xo storage.type.function.xo
+#  ^ source.xo
+#   ^^^^^ source.xo entity.name.function.xo
+#        ^ source.xo
+#         ^^ source.xo variable.other.property.xo
+#           ^ source.xo punctuation.separator.colon.xo
+#            ^ source.xo
+#             ^^^^ source.xo support.type.builtin.xo
+#                 ^ source.xo
+#                  ^^^ source.xo support.type.builtin.xo
+#                     ^^^^^ source.xo
+>  for x in xs bound 100 {
+#^^ source.xo
+#  ^^^ source.xo keyword.control.xo
+#     ^ source.xo
+#      ^ source.xo variable.other.xo
+#       ^ source.xo
+#        ^^ source.xo keyword.control.xo
+#          ^ source.xo
+#           ^^ source.xo variable.other.xo
+#             ^ source.xo
+#              ^^^^^ source.xo keyword.other.bound.xo
+#                   ^ source.xo
+#                    ^^^ source.xo constant.numeric.integer.xo
+#                       ^^^ source.xo
+>    println("${x}")
+#^^^^ source.xo
+#    ^^^^^^^ source.xo entity.name.function.call.xo
+#           ^ source.xo
+#            ^ source.xo string.quoted.double.xo punctuation.definition.string.begin.xo
+#             ^^ source.xo string.quoted.double.xo meta.interpolation.xo punctuation.section.interpolation.begin.xo
+#               ^ source.xo string.quoted.double.xo meta.interpolation.xo source.xo.embedded variable.other.xo
+#                ^ source.xo string.quoted.double.xo meta.interpolation.xo punctuation.section.interpolation.end.xo
+#                 ^ source.xo string.quoted.double.xo punctuation.definition.string.end.xo
+#                  ^^ source.xo
+>  }
+#^^^^ source.xo
+>  while ok() bound 10 {
+#^^ source.xo
+#  ^^^^^ source.xo keyword.control.xo
+#       ^ source.xo
+#        ^^ source.xo entity.name.function.call.xo
+#          ^^ source.xo
+#            ^ source.xo
+#             ^^^^^ source.xo keyword.other.bound.xo
+#                  ^ source.xo
+#                   ^^ source.xo constant.numeric.integer.xo
+#                     ^^^ source.xo
+>    step()
+#^^^^ source.xo
+#    ^^^^ source.xo entity.name.function.call.xo
+#        ^^^ source.xo
+>  }
+#^^^^ source.xo
+>}
+#^^ source.xo
+>
+>fn rt(x: Float) -> Float uses realtime {
+#^^ source.xo storage.type.function.xo
+#  ^ source.xo
+#   ^^ source.xo entity.name.function.xo
+#     ^ source.xo
+#      ^ source.xo variable.other.property.xo
+#       ^ source.xo punctuation.separator.colon.xo
+#        ^ source.xo
+#         ^^^^^ source.xo support.type.builtin.xo
+#              ^^ source.xo
+#                ^^ source.xo keyword.operator.arrow.xo
+#                  ^ source.xo
+#                   ^^^^^ source.xo support.type.builtin.xo
+#                        ^ source.xo
+#                         ^^^^ source.xo keyword.other.uses.xo
+#                             ^ source.xo
+#                              ^^^^^^^^ source.xo support.constant.effect.xo
+#                                      ^ source.xo
+#                                       ^^ source.xo
+>  x
+#^^ source.xo
+#  ^ source.xo variable.other.xo
+>}
+#^^ source.xo
+>

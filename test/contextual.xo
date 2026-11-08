@@ -1,0 +1,48 @@
+// SYNTAX TEST "source.xo" "Contextual words and newer forms (spec/core.md 1.4, 3.5, 6.5)"
+struct Cfg {
+  a: Int
+}
+derive Json, Eq
+// <-- keyword.other.derive.xo
+//     ^^^^ support.type.interface.xo
+
+fn loops(xs: List[Int]) {
+  for x in xs bound 100 {
+//            ^^^^^ keyword.other.bound.xo
+    step()
+  }
+  while ok() bound 10 {
+//           ^^^^^ keyword.other.bound.xo
+    step()
+  }
+}
+
+fn root(n: Int) -> Int
+  ensures result >= n
+//        ^^^^^^ variable.language.result.xo
+{
+  n
+}
+
+fn rt(x: Float) -> Float uses realtime {
+//                            ^^^^^^^^ support.constant.effect.xo
+  x
+}
+
+fn pairs() {
+  (a, b) = (b, a)
+//       ^ keyword.operator.assignment.xo
+  Point{x, y} = p
+//            ^ keyword.operator.assignment.xo
+  match v {
+    Some(n) if n > 0 => n
+//          ^^ keyword.control.xo
+//                   ^^ keyword.operator.arrow.xo
+    _ => 0
+  }
+}
+
+fn twice[fx: Effects](f: fn() -> () uses fx) -> () uses fx {
+//           ^^^^^^^ support.type.builtin.xo
+  f()
+}
