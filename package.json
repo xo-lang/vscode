@@ -74,6 +74,11 @@
           "type": "boolean",
           "default": true,
           "description": "Start xo lsp for diagnostics, hover, definition, references, rename, semantic highlighting, and formatting."
+        },
+        "xo.hover.docLinks": {
+          "type": "boolean",
+          "default": true,
+          "description": "End the hover of a standard library declaration with a link to its page of the std reference on xolang.dev (needs an xo whose language server makes the link)."
         }
       }
     },

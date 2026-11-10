@@ -11,6 +11,8 @@
   the xo, its version and the xo.mod, since it rejects every file.
 - When no xo is on PATH and `xo.path` is unset, the extension says once per binary that it is using a `bin/xo` or
   `.tools/bin/xo` found in the workspace: a stale checkout's xo was used silently and flagged valid code.
+- `xo.hover.docLinks` (default on): the hover of a standard library declaration ends with a link to its page of the
+  std reference on xolang.dev, from an xo whose language server makes the link; off sends `hoverDocLinks: false`.
 
 ## 0.1.2 (2026-11-08)
 

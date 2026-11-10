@@ -130,6 +130,8 @@ async function start(context) {
     { command, args: ["lsp"], options: { cwd, env: { ...process.env, PWD: cwd } } },
     {
       documentSelector: [{ scheme: "file", language: "xo" }],
+      // read by xo lsp's initialize; an xo without the option ignores it
+      initializationOptions: { hoverDocLinks: vscode.workspace.getConfiguration("xo").get("hover.docLinks") !== false },
       // A failed request (hover over a package whose xo.mod does not load)
       // goes to the output channel, not a popup per mouse move.
       revealOutputChannelOn: RevealOutputChannelOn.Never,

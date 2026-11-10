@@ -56,6 +56,7 @@ set `xo.path`.
 |---|---|---|
 | `xo.path` | `""` | The xo binary; empty: found as above. |
 | `xo.lsp.enabled` | `true` | Start `xo lsp`. |
+| `xo.hover.docLinks` | `true` | End a std declaration's hover with a link to its std reference page on xolang.dev. |
 
 The command "Xo: Restart Language Server" restarts `xo lsp` (after a new
 xo, say). The "Xo" output channel shows which xo answers.
