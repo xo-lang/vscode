@@ -41,6 +41,15 @@ uses, in order: the `xo.path` setting, `xo` on PATH, then `bin/xo` of an
 Xo checkout or `.tools/bin/xo` in a workspace folder or a directory above
 it.
 
+The Xo output channel names the xo it chose, its version and where it
+came from. The extension tells you when there is no xo (with a button to
+set `xo.path` and a link to the install docs), when the xo is older than
+0.44.0 or than the first xo that reads the project's `edition` line, and,
+once per binary, when it fell back to a `bin/xo` or `.tools/bin/xo` in
+the workspace because there is no xo on PATH. After changing PATH,
+restart VS Code (a running VS Code keeps the PATH it started with), or
+set `xo.path`.
+
 ## Settings
 
 | Setting | Default | Meaning |

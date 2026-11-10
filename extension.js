@@ -1,5 +1,7 @@
 // Starts `xo lsp` for .xo files and runs `xo debug --dap` for the "xo"
-// debug type. The xo binary is lib/xopath.js's: the xo.path setting, then
+// debug type. It says which xo it chose in the Xo output channel, and
+// warns when none is found, when the one found is too old for the
+// extension or the project's edition, or when it came from the workspace. The xo binary is lib/xopath.js's: the xo.path setting, then
 // xo on PATH, then bin/xo of an Xo checkout (what `go run ./scripts/xobuild`
 // builds) or .tools/bin/xo in a workspace folder, the active file's
 // directory, or a directory above them.
@@ -54,18 +56,70 @@ function version(command) {
   }
 }
 
+// INSTALL_DOCS is the getting started page's install section.
+const INSTALL_DOCS = "https://xolang.dev/docs/getting-started/";
+const SET_PATH = "Set xo.path…";
+const INSTALL = "Install docs";
+
+// offer acts on a notification's button: SET_PATH opens the xo.path
+// setting, INSTALL the install docs.
+function offer(choice) {
+  if (choice === SET_PATH) {
+    vscode.commands.executeCommand("workbench.action.openSettings", "xo.path");
+  } else if (choice === INSTALL) {
+    vscode.env.openExternal(vscode.Uri.parse(INSTALL_DOCS));
+  }
+}
+
+// projectDir is where to look for the project's xo.mod: the active .xo
+// file's directory, else the first workspace folder.
+function projectDir() {
+  const doc = vscode.window.activeTextEditor && vscode.window.activeTextEditor.document;
+  if (doc && doc.uri.scheme === "file") {
+    return path.dirname(doc.uri.fsPath);
+  }
+  const folders = vscode.workspace.workspaceFolders || [];
+  return folders.length > 0 ? folders[0].uri.fsPath : undefined;
+}
+
+// report logs the chosen binary and tells the user what lib/xopath.js's
+// problems finds: an edition the xo rejects is an error, an xo older than
+// MIN_XO a warning, and a binary found in the workspace (no xo on PATH,
+// xo.path unset) a note shown once per binary.
+function report(context, found, versionLine) {
+  output.appendLine(`xo: ${found.command} (${versionLine}), from ${found.source === "setting" ? "xo.path" : found.source === "path" ? "PATH" : "the workspace"}`);
+  const dir = projectDir();
+  for (const p of xopath.problems(found, versionLine, dir ? xopath.edition(dir) : undefined)) {
+    output.appendLine(`xo: ${p.message}`);
+    if (p.kind === "edition") {
+      vscode.window.showErrorMessage(`Xo: ${p.message}. Install a newer Xo or set xo.path.`, SET_PATH, INSTALL).then(offer);
+    } else if (p.kind === "old") {
+      vscode.window.showWarningMessage(`Xo: ${p.message}. Install a newer Xo or set xo.path.`, SET_PATH, INSTALL).then(offer);
+    } else if (p.kind === "fallback") {
+      const key = "xo.fallbackNoted:" + found.command;
+      if (!context.globalState.get(key)) {
+        context.globalState.update(key, true);
+        vscode.window.showInformationMessage(`Xo: ${p.message}. Set xo.path to choose another.`, SET_PATH).then(offer);
+      }
+    }
+  }
+}
+
 async function start(context) {
   if (!vscode.workspace.getConfiguration("xo").get("lsp.enabled")) {
     return;
   }
-  const { command, tried } = xoPath();
+  const found = xoPath();
+  const { command, tried } = found;
   if (!command) {
-    vscode.window.showWarningMessage(
-      "Xo: no xo binary found for the language server. Install Xo (https://github.com/xo-lang/xo) so xo is on PATH, or set xo.path. Looked in: " +
-        tried.join(", ")
-    );
+    output.appendLine("xo: not found; looked in: " + tried.join(", "));
+    vscode.window
+      .showWarningMessage("Xo: xo not found. Install Xo so xo is on PATH (then restart VS Code), or set xo.path.", SET_PATH, INSTALL)
+      .then(offer);
     return;
   }
+  const versionLine = version(command);
+  report(context, found, versionLine);
   // xo takes its working directory from $PWD, not the OS, so PWD must
   // match cwd: VS Code started from the Dock passes PWD=/, and the server
   // then cannot place std files, so definitions in std came back empty.
@@ -87,7 +141,7 @@ async function start(context) {
   );
   try {
     await client.start();
-    client.outputChannel.appendLine(`xo lsp: ${command} (${version(command)})`);
+    client.outputChannel.appendLine(`xo lsp: ${command} (${versionLine})`);
   } catch (err) {
     vscode.window.showWarningMessage(
       `Xo: could not start "${command} lsp" (${(err && err.message) || err}). Set xo.path to a newer xo.`

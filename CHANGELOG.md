@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.1.3 (unreleased)
+
+- The extension says which xo it uses: the Xo output channel names the binary, its version and where it was found
+  (xo.path, PATH, or the workspace).
+- No xo found: a notification "xo not found" with buttons to set `xo.path` and to open the install docs, in place of a
+  warning that only listed the places looked.
+- An xo older than 0.44.0 gets a warning naming its path and version, with a "Set xo.path…" button. An xo older than
+  the first one that reads the project's xo.mod `edition` line (0.11.0 for `edition preview`) gets an error naming
+  the xo, its version and the xo.mod, since it rejects every file.
+- When no xo is on PATH and `xo.path` is unset, the extension says once per binary that it is using a `bin/xo` or
+  `.tools/bin/xo` found in the workspace: a stale checkout's xo was used silently and flagged valid code.
+
 ## 0.1.2 (2026-11-08)
 
 - Grammar refresh against the spec and a tree-sitter grammar corpus (tree-sitter-xo): `derive` on the line after a
