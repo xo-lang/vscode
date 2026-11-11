@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.3 (unreleased)
+## 0.1.3 (2026-11-11)
 
 - The extension says which xo it uses: the Xo output channel names the binary, its version and where it was found
   (xo.path, PATH, or the workspace).
